@@ -10,6 +10,8 @@ mod ray;
 #[cfg(test)]
 mod ray_test;
 
+use ray::{Ray};
+
 fn main() {
     
     // Image
