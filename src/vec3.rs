@@ -5,19 +5,6 @@ pub struct Vec3 {
     e: [f32; 3],
 }
 
-pub struct Color3(pub Vec3);
-
-impl Color3 {
-    pub fn print_color_line(&self) {
-        let byte_scaled_color = self.0 * 255.999f32;
-        let r = byte_scaled_color[0] as i32;
-        let g = byte_scaled_color[1] as i32;
-        let b = byte_scaled_color[2] as i32;
-
-        println!("{} {} {}", r, g, b);
-    }
-}
-
 impl Vec3 {
     pub fn new(x: f32, y: f32, z: f32) -> Self {
         Vec3 {
@@ -40,6 +27,8 @@ impl Vec3 {
     pub(crate) fn lerp(&self, start: f32, scale: f32) -> Vec3 {
         self*scale + start
     }
+
+    pub fn create_unit_vector(self) -> Vec3 { self / self.length() }
 }
 
 impl Neg for Vec3 {
@@ -149,5 +138,42 @@ impl Div<f32> for Vec3 {
         Vec3 {
             e: [self.x() / rhs, self.y() / rhs, self.z() / rhs]
         }
+    }
+}
+
+pub struct Color3(pub Vec3);
+
+impl Color3 {
+    pub fn print_color_line(&self) {
+        let byte_scaled_color = self.0 * 255.999f32;
+        let r = byte_scaled_color[0] as i32;
+        let g = byte_scaled_color[1] as i32;
+        let b = byte_scaled_color[2] as i32;
+
+        println!("{} {} {}", r, g, b);
+    }
+}
+
+impl Add for Color3 {
+    type Output =  Self;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        Color3(self.0 + rhs.0)
+    }
+}
+
+impl Mul<f32> for Color3 {
+    type Output = Self;
+
+    fn mul(self, rhs: f32) -> Self::Output {
+        Color3(self.0 * rhs)
+    }
+}
+
+impl Mul<Color3> for f32 {
+    type Output = Color3;
+
+    fn mul(self, rhs: Color3) -> Self::Output {
+        Color3(rhs.0 * self)
     }
 }
