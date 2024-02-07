@@ -28,7 +28,6 @@ fn main() {
         eprint!("\rScanlines remaining: {} ", image_height - j);
 
         //thread::sleep(time::Duration::from_millis(10));
-        //Ravesh patel
         
         for i in 0..image_width {
             let r = i as f32 / (image_height + 1) as f32;
