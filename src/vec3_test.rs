@@ -62,3 +62,14 @@ fn test_mul_with_f32() {
     assert_eq!(f32_vec3_subject.x(), vec3_f32_subject.x());
     assert_eq!(f32_vec3_subject.x(), 0f32);
 }
+
+#[test]
+fn test_div_by_f32() {
+    let divisor: f32 = 2.;
+    let dividend = Vec3::new(0., 1., 2.);
+    let quotient = dividend / divisor;
+
+    assert_eq!(quotient.x(), 0.);
+    assert_eq!(quotient.y(), 0.5);
+    assert_eq!(quotient.z(), 1.);
+}

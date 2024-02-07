@@ -1,4 +1,4 @@
-use std::ops::{Add, Neg, Index, IndexMut, AddAssign, MulAssign, Mul};
+use std::ops::{Add, AddAssign, Div, Index, IndexMut, Mul, MulAssign, Neg};
 
 #[derive(Default, Clone, Copy)]
 pub struct Vec3 {
@@ -134,3 +134,12 @@ impl Mul<Vec3> for f32 {
     }
 }
 
+impl Div<f32> for Vec3 {
+    type Output = Vec3;
+
+    fn div(self, rhs: f32) -> Self::Output {
+        Vec3 {
+            e: [self.x() / rhs, self.y() / rhs, self.z() / rhs]
+        }
+    }
+}
