@@ -1,4 +1,4 @@
-use std::ops::{Add, AddAssign, Div, Index, IndexMut, Mul, MulAssign, Neg};
+use std::ops::{Add, AddAssign, Div, Index, IndexMut, Mul, MulAssign, Neg, Sub};
 
 #[derive(Default, Clone, Copy)]
 pub struct Vec3 {
@@ -93,6 +93,16 @@ impl AddAssign for Vec3 {
         self.e[0] += rhs.e[0];
         self.e[1] += rhs.e[1];
         self.e[2] += rhs.e[2];
+    }
+}
+
+impl Sub for Vec3 {
+    type Output = Self;
+
+    fn sub(self, rhs: Self) -> Self::Output {
+        Self {
+            e: [self.x() - rhs.x(), self.y() - rhs.y(), self.z() - rhs.z()]
+        }
     }
 }
 

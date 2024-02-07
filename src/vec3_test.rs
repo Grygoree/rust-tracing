@@ -42,6 +42,17 @@ fn test_add_assignment() {
 }
 
 #[test]
+fn test_subtraction() {
+    let minuend = Vec3::new(1.,0.,0.);
+    let subtrahend = Vec3::new(-1.,0.,1.);
+    let difference = minuend - subtrahend;
+
+    assert_eq!(difference.x(), 2.);
+    assert_eq!(difference.y(), 0.);
+    assert_eq!(difference.z(), -1.);
+}
+
+#[test]
 fn test_mul_assignment_with_vec3() {
     let mut subject = Vec3::new(1.0, -1.0, 0f32);
     let multiplier = Vec3::new(5.0, 1.0, 99.0);
