@@ -5,11 +5,11 @@ pub struct Vec3 {
     e: [f32; 3],
 }
 
-pub type Color3 = (Vec3);
+pub struct Color3(Vec3);
 
 impl Color3 {
     pub fn print_color_line(&self) {
-        let byte_scaled_color = self * 255.999f32;
+        let byte_scaled_color = self.0 * 255.999f32;
         let r = byte_scaled_color[0] as i32;
         let g = byte_scaled_color[1] as i32;
         let b = byte_scaled_color[2] as i32;
