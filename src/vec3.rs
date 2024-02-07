@@ -5,7 +5,7 @@ pub struct Vec3 {
     e: [f32; 3],
 }
 
-pub struct Color3(Vec3);
+pub struct Color3(pub Vec3);
 
 impl Color3 {
     pub fn print_color_line(&self) {
@@ -17,8 +17,6 @@ impl Color3 {
         println!("{} {} {}", r, g, b);
     }
 }
-
-
 
 impl Vec3 {
     pub fn new(x: f32, y: f32, z: f32) -> Self {
