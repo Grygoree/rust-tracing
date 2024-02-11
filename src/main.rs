@@ -1,13 +1,17 @@
 mod vec3;
 #[cfg(test)]
 mod vec3_test;
-use vec3::{Vec3, Color3};
+use vec3::Vec3;
 
 mod ray;
 #[cfg(test)]
 mod ray_test;
+use ray::Ray;
 
-use ray::{Ray};
+mod color3;
+#[cfg(test)]
+mod color3_test;
+use color3::Color3;
 
 fn main() {
     
