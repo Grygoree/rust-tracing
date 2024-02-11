@@ -24,11 +24,11 @@ impl Vec3 {
         (self.x() * self.x()) + (self.y() * self.y()) + (self.z() * self.z())
     }
 
-    pub(crate) fn lerp(&self, start: f32, scale: f32) -> Vec3 {
-        self*scale + start
-    }
-
     pub fn create_unit_vector(self) -> Vec3 { self / self.length() }
+
+    pub fn dot(&self, rhs: &Vec3) -> f32 {
+        self.x()*rhs.x() + self.y()*rhs.y() + self.z()*rhs.z()
+    }
 }
 
 impl Neg for Vec3 {

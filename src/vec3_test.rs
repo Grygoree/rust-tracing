@@ -84,3 +84,11 @@ fn test_div_by_f32() {
     assert_eq!(quotient.y(), 0.5);
     assert_eq!(quotient.z(), 1.);
 }
+
+#[test]
+fn test_dot_product() {
+    let a = Vec3::new(0., 1., 1.5);
+    let b = Vec3::new(1., 2., 2.);
+
+    assert_eq!(a.dot(&b), 5.);
+}
