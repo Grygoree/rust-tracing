@@ -7,6 +7,13 @@ fn test_new() {
 }
 
 #[test]
+fn test_length() {
+    let subject = Vec3::new(2., -10., 11.);
+    
+    assert_eq!(subject.length(), 15.);
+}
+
+#[test]
 fn test_negation() {
     let subject = -Vec3::new(0f32, 1.0, 2.0);
     assert_eq!(subject.x(), 0f32);

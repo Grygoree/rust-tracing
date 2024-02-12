@@ -1,6 +1,7 @@
 mod vec3;
 #[cfg(test)]
 mod vec3_test;
+
 use vec3::Vec3;
 
 mod ray;
@@ -35,11 +36,11 @@ fn main() {
     let viewport_v = Vec3::new(0., -viewport_height, 0.);
 
     // Calculate the horizontal and vertical delta vectors from pixel to pixel.
-    let pixel_delta_u = viewport_u / image_height as f32;
-    let pixel_delta_v = viewport_v / image_width as f32;
+    let pixel_delta_u = viewport_u / image_width as f32;
+    let pixel_delta_v = viewport_v / image_height as f32;
 
     // Calculate the location of the upper left pixel (0,0) in uv-coordinates
-    let viewport_upper_left = camera_center - Vec3::new(0.,0.,focal_length) - (viewport_u / 2 as f32) - (viewport_v / 2 as f32);
+    let viewport_upper_left = camera_center - Vec3::new(0.,0.,focal_length) - (viewport_u / 2.) - (viewport_v / 2.);
     let pixel00_loc = viewport_upper_left + (0.5 * (pixel_delta_u + pixel_delta_v));
 
     // Render
@@ -65,7 +66,26 @@ fn main() {
     eprint!("\rDone.                                  \n");
 }
 
+/// Returns whether ray r will intersect a sphere of radius radius centered at center
+///
+/// # Arguments
+/// 
+/// * `center` - A Vec3 pointer that represents the center of a sphere in 3d space
+/// * `radius` - A f32 that represents the radius (distance from center) of the sphere
+/// * `r` - A ray pointer that is being tested on whether it intersects the sphere when multiplied by some scalar
+fn hit_sphere(center: &Vec3, radius: f32, r: &Ray) -> bool {
+    let oc = r.origin - *center;
+    let a = r.direction.dot(&r.direction);
+    let b = 2. * oc.dot(&r.direction);
+    let c = oc.dot(&oc) - radius*radius;
+    let discriminant = b*b - 4.*a*c;
+    discriminant >= 0.
+}
+
 fn ray_color(r: Ray) -> Color3 {
+    if hit_sphere(&Vec3::new(0., 0., -1.), 0.5, &r) {
+        return Color3(Vec3::new(1., 0., 0.))
+    }
     let unit_direction = r.direction.create_unit_vector();
     let t = 0.5 * (unit_direction.y() + 1.0);
     let white = Color3(Vec3::new(1., 1., 1.));
