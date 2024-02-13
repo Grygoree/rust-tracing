@@ -73,23 +73,27 @@ fn main() {
 /// * `center` - A Vec3 pointer that represents the center of a sphere in 3d space
 /// * `radius` - A f32 that represents the radius (distance from center) of the sphere
 /// * `r` - A ray pointer that is being tested on whether it intersects the sphere when multiplied by some scalar
-fn hit_sphere(center: &Vec3, radius: f32, r: &Ray) -> bool {
+fn hit_sphere(center: &Vec3, radius: f32, r: &Ray) -> f32 {
     let oc = r.origin - *center;
     let a = r.direction.dot(&r.direction);
     let b = 2. * oc.dot(&r.direction);
     let c = oc.dot(&oc) - radius*radius;
     let discriminant = b*b - 4.*a*c;
-    discriminant >= 0.
+    
+    if discriminant < 0. { -1. } else {(-b - discriminant.sqrt()) / (2.*a)}
 }
 
 fn ray_color(r: Ray) -> Color3 {
-    if hit_sphere(&Vec3::new(0., 0., -1.), 0.5, &r) {
-        return Color3(Vec3::new(1., 0., 0.))
+    let t = hit_sphere(&Vec3::new(0., 0., -1.), 0.5, &r);
+    if t > 0. {
+        let n = (r.at(t) - Vec3::new(0.,0.,-1.)).create_unit_vector();
+        return 0.5 * Color3(Vec3::new(n.x()+1., n.y()+1., n.z()+1.));
     }
+
     let unit_direction = r.direction.create_unit_vector();
-    let t = 0.5 * (unit_direction.y() + 1.0);
+    let a = 0.5 * (unit_direction.y() + 1.0);
     let white = Color3(Vec3::new(1., 1., 1.));
     let blue = Color3(Vec3::new(0.5, 0.7, 1.));
-    let end_weight = 1.0 - t;
-    end_weight * white + t * blue
+    let end_weight = 1.0 - a;
+    end_weight * white + a * blue
 }
