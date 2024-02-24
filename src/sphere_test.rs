@@ -5,10 +5,7 @@ use crate::sphere::Sphere;
 
 #[test]
 fn test_sphere_hit() {
-    let sphere = Sphere {
-        center: Vec3::new(2., 0., 0.),
-        radius: 1.
-    };
+    let sphere = build_test_sphere();
     let mut hit_record: HitRecord = Default::default();
 
     let hitting_ray = Ray::new(Vec3::new(0.,0.,0.), Vec3::new(1., 0., 0.));
@@ -23,10 +20,7 @@ fn test_sphere_hit() {
 
 #[test]
 fn test_sphere_miss() {
-    let sphere = Sphere {
-        center: Vec3::new(2., 0., 0.),
-        radius: 1.
-    };
+    let sphere = build_test_sphere();
     let mut hit_record: HitRecord = Default::default();
 
     let missing_ray = Ray::new(Vec3::new(0.,0.,0.), Vec3::new(-1., 0., 0.));
@@ -42,10 +36,7 @@ fn test_sphere_miss() {
 
 #[test]
 fn test_sphere_miss_when_t_max_is_too_small() {
-    let sphere = Sphere {
-        center: Vec3::new(2., 0., 0.),
-        radius: 1.
-    };
+    let sphere = build_test_sphere();
     let mut hit_record: HitRecord = Default::default();
 
     let missing_ray = Ray::new(Vec3::new(0.,0.,0.), Vec3::new(1., 0., 0.));
@@ -61,10 +52,7 @@ fn test_sphere_miss_when_t_max_is_too_small() {
 
 #[test]
 fn test_sphere_miss_when_t_min_is_too_large() {
-    let sphere = Sphere {
-        center: Vec3::new(2., 0., 0.),
-        radius: 1.
-    };
+    let sphere = build_test_sphere();
     let mut hit_record: HitRecord = Default::default();
 
     let missing_ray = Ray::new(Vec3::new(0.,0.,0.), Vec3::new(1., 0., 0.));
@@ -76,4 +64,26 @@ fn test_sphere_miss_when_t_min_is_too_large() {
     assert_eq!(hit_record.t, 0.);
     assert_eq!(hit_record.normal.x(), 0.);
     assert_eq!(hit_record.p.x(), 0.);
+}
+
+#[test]
+fn test_sphere_hit_when_ray_starts_inside() {
+    let sphere = build_test_sphere();
+    let mut hit_record: HitRecord = Default::default();
+
+    let hitting_ray = Ray::new(Vec3::new(2.,0.,0.), Vec3::new(1., 0., 0.));
+
+    let successful_hit = sphere.hit(&hitting_ray, 0., 3., &mut hit_record);
+
+    assert_eq!(successful_hit, true);
+    assert_eq!(hit_record.t, 1.);
+    assert_eq!(hit_record.normal.x(), 1.);
+    assert_eq!(hit_record.p.x(), 3.);
+}
+
+fn build_test_sphere() -> Sphere {
+    Sphere {
+        center: Vec3::new(2., 0., 0.),
+        radius: 1.
+    }
 }
