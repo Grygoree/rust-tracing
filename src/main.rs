@@ -14,6 +14,11 @@ mod color3;
 mod color3_test;
 use color3::Color3;
 
+mod hittable;
+mod sphere;
+#[cfg(test)]
+mod sphere_test;
+
 fn main() {
     
     // Image
