@@ -15,6 +15,9 @@ mod color3_test;
 use color3::Color3;
 
 mod hittable;
+#[cfg(test)]
+mod hittable_test;
+
 mod sphere;
 #[cfg(test)]
 mod sphere_test;
