@@ -16,6 +16,7 @@ fn test_sphere_hit() {
     assert_eq!(hit_record.t, 1.);
     assert_eq!(hit_record.normal.x(), -1.);
     assert_eq!(hit_record.p.x(), 1.);
+    assert_eq!(hit_record.front_face, true);
 }
 
 #[test]
@@ -77,8 +78,9 @@ fn test_sphere_hit_when_ray_starts_inside() {
 
     assert_eq!(successful_hit, true);
     assert_eq!(hit_record.t, 1.);
-    assert_eq!(hit_record.normal.x(), 1.);
+    assert_eq!(hit_record.normal.x(), -1.); // Because it is inside the sphere, the hitting point's normal is opposite the ray
     assert_eq!(hit_record.p.x(), 3.);
+    assert_eq!(hit_record.front_face, false); // Inside the sphere, so it is not the front face
 }
 
 fn build_test_sphere() -> Sphere {
