@@ -1,4 +1,4 @@
-use crate::{hittable::HitRecord, hittable_list::HittableList, ray::Ray, sphere::Sphere, vec3::Vec3};
+use crate::{hittable::{HitRecord, Hittable}, hittable_list::HittableList, ray::Ray, sphere::Sphere, vec3::Vec3};
 
 #[test]
 fn test_hittable_list_add_and_hit() {
