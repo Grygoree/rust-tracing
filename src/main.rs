@@ -2,6 +2,7 @@ mod vec3;
 #[cfg(test)]
 mod vec3_test;
 
+use hittable::{HitRecord, Hittable};
 use vec3::Vec3;
 
 mod ray;
@@ -13,6 +14,8 @@ mod color3;
 #[cfg(test)]
 mod color3_test;
 use color3::Color3;
+
+use crate::{hittable_list::HittableList, sphere::Sphere};
 
 mod hittable;
 #[cfg(test)]
@@ -35,6 +38,12 @@ fn main() {
     // Ensure that image_height is at least 1
     let extant_image_height: i32 = (image_width as f32 / aspect_ratio) as i32;
     let image_height: i32 = if extant_image_height < 1 { 1 } else { extant_image_height };
+
+    // World
+    let mut world: HittableList = Default::default();
+
+    world.add(Box::new(Sphere{ center: Vec3::new(0., 0., -1.), radius: 0.5}));
+    world.add(Box::new(Sphere{ center: Vec3::new(0., -100.5, -1.), radius: 100.}));
 
     // Camera
 
@@ -70,7 +79,7 @@ fn main() {
             let pixel_center = pixel00_loc + (i as f32 * pixel_delta_u) + (j as f32 * pixel_delta_v);
             let ray_direction = pixel_center - camera_center;
             let r = Ray::new(camera_center, ray_direction);
-            let color = ray_color(r);
+            let color = ray_color(r, &world);
             color.print_color_line();
         }
     }
@@ -78,28 +87,10 @@ fn main() {
     eprint!("\rDone.                                  \n");
 }
 
-/// Returns whether ray r will intersect a sphere of radius radius centered at center
-///
-/// # Arguments
-/// 
-/// * `center` - A Vec3 pointer that represents the center of a sphere in 3d space
-/// * `radius` - A f32 that represents the radius (distance from center) of the sphere
-/// * `r` - A ray pointer that is being tested on whether it intersects the sphere when multiplied by some scalar
-fn hit_sphere(center: &Vec3, radius: f32, r: &Ray) -> f32 {
-    let oc = r.origin - *center;
-    let a = r.direction.dot(&r.direction);
-    let b = 2. * oc.dot(&r.direction);
-    let c = oc.dot(&oc) - radius*radius;
-    let discriminant = b*b - 4.*a*c;
-    
-    if discriminant < 0. { -1. } else {(-b - discriminant.sqrt()) / (2.*a)}
-}
-
-fn ray_color(r: Ray) -> Color3 {
-    let t = hit_sphere(&Vec3::new(0., 0., -1.), 0.5, &r);
-    if t > 0. {
-        let n = (r.at(t) - Vec3::new(0.,0.,-1.)).create_unit_vector();
-        return 0.5 * Color3(Vec3::new(n.x()+1., n.y()+1., n.z()+1.));
+fn ray_color(r: Ray, world: &impl Hittable) -> Color3 {
+    let mut rec: HitRecord = Default::default();
+    if world.hit(&r, 0., f32::INFINITY, &mut rec) {
+        return 0.5 * (Color3(rec.normal) + Color3(Vec3::new(1., 1., 1.)))
     }
 
     let unit_direction = r.direction.create_unit_vector();
