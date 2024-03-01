@@ -22,6 +22,10 @@ mod sphere;
 #[cfg(test)]
 mod sphere_test;
 
+mod hittable_list;
+#[cfg(test)]
+mod hittable_list_test;
+
 fn main() {
     
     // Image

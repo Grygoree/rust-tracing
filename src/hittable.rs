@@ -2,7 +2,7 @@ use crate::{vec3::Vec3, Ray};
 
 #[derive(Default)]
 pub struct HitRecord {
-    pub p: Vec3,
+    pub p: Vec3, // TODO: rename to hit point?
     pub normal: Vec3,
     pub t: f32,
     pub front_face: bool,
