@@ -10,7 +10,7 @@ impl Hittable for Sphere {
         let oc = r.origin - self.center;
         let a = r.direction.length_squared();
         let half_b = oc.dot(&r.direction);
-        let c = oc.length_squared() - self.radius;
+        let c = oc.length_squared() - self.radius*self.radius;
         let discriminant = half_b * half_b - a * c;
         
         if discriminant < 0. {
