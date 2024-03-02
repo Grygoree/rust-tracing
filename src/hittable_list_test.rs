@@ -1,4 +1,4 @@
-use crate::{hittable::{HitRecord, Hittable}, hittable_list::HittableList, ray::Ray, sphere::Sphere, vec3::Vec3};
+use crate::{hittable::{HitRecord, Hittable}, hittable_list::HittableList, interval::Interval, ray::Ray, sphere::Sphere, vec3::Vec3};
 
 #[test]
 fn test_hittable_list_add_and_hit() {
@@ -20,7 +20,7 @@ fn test_hittable_list_add_and_hit() {
     list.add(Box::new(sphere1));
     list.add(Box::new(sphere2));
 
-    let result = list.hit(&ray, 0., f32::INFINITY, &mut rec);
+    let result = list.hit(&ray, Interval::new(0., f32::INFINITY), &mut rec);
 
     assert_eq!(result, true);
     assert_eq!(rec.p.x(), 1.);
@@ -42,7 +42,7 @@ fn test_hittable_list_clear() {
     list.add(Box::new(sphere1));
     list.clear();
 
-    let result = list.hit(&ray, 0., f32::INFINITY, &mut rec);
+    let result = list.hit(&ray, Interval::new(0., f32::INFINITY), &mut rec);
 
     assert_eq!(result, false);
 }

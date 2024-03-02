@@ -3,6 +3,7 @@ mod vec3;
 mod vec3_test;
 
 use hittable::{HitRecord, Hittable};
+use interval::Interval;
 use vec3::Vec3;
 
 mod ray;
@@ -28,6 +29,10 @@ mod sphere_test;
 mod hittable_list;
 #[cfg(test)]
 mod hittable_list_test;
+
+mod interval;
+#[cfg(test)]
+mod interval_test;
 
 fn main() {
     
@@ -89,7 +94,7 @@ fn main() {
 
 fn ray_color(r: Ray, world: &impl Hittable) -> Color3 {
     let mut rec: HitRecord = Default::default();
-    if world.hit(&r, 0., f32::INFINITY, &mut rec) {
+    if world.hit(&r, Interval::new(0., f32::INFINITY), &mut rec) {
         return 0.5 * (Color3(rec.normal) + Color3(Vec3::new(1., 1., 1.)))
     }
 
