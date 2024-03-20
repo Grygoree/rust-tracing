@@ -1,4 +1,4 @@
-use crate::{Color3, Vec3};
+use crate::{color3::Color3, Vec3};
 
 #[test]
 fn test_color_addition() {
