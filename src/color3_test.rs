@@ -12,6 +12,17 @@ fn test_color_addition() {
 }
 
 #[test]
+fn test_color_add_assign() {
+    let mut mixed = Color3(Vec3::new(1., 0., 0.));
+    let blue = Color3(Vec3::new(0., 0., 1.));
+
+    mixed += blue;
+
+    assert_eq!(mixed.0.x(), 1.);
+    assert_eq!(mixed.0.z(), 1.);
+}
+
+#[test]
 fn test_color_scalar_multiplication() {
     let grey = Color3(Vec3::new(0.5, 0.5, 0.5));
     let white = 2. * grey;
