@@ -33,6 +33,8 @@ mod interval_test;
 
 mod camera;
 
+mod utils;
+
 fn main() {
     // World
     let mut world: HittableList = Default::default();

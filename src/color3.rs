@@ -7,13 +7,18 @@ pub struct Color3(pub Vec3);
 impl Color3 {
     pub fn print_color_line(&self, samples_per_pixel: u16) {
         let scale = 1. / samples_per_pixel as f32;
-        let scaled_color = self.0 * scale * 256.;
+        let scaled_color = self.0 * scale;
         let r = scaled_color[0];
         let g = scaled_color[1];
         let b = scaled_color[2];
 
         let intensity = Interval::new(0., 0.999);
-        println!("{} {} {}", intensity.clamp(r), intensity.clamp(g), intensity.clamp(b));
+        println!(
+            "{} {} {}",
+            (intensity.clamp(r) * 255.999) as u8, 
+            (intensity.clamp(g) * 255.999) as u8, 
+            (intensity.clamp(b) * 255.999) as u8
+        );
     }
 }
 
